@@ -1,0 +1,103 @@
+﻿<UserControl x:Class="VSTSMonitor.View.ChangesetQueryPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:cmd="clr-namespace:VSTSMonitor.Command"
+             xmlns:local="clr-namespace:VSTSMonitor.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="1000">
+    <Grid x:Name="gridChangesetQuery" DataContext="{Binding ChangesetQuery, Source={StaticResource Locator}}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <!--<RowDefinition Height="30"></RowDefinition>-->
+        </Grid.RowDefinitions>
+        <Button Grid.Row="0"
+                Content="Execute"
+                Command="{Binding ExecuteQueryCommand}"></Button>
+
+        <ScrollViewer Grid.Row="1"
+                      HorizontalScrollBarVisibility="Disabled"
+                      VerticalScrollBarVisibility="Auto"
+                      PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
+            <StackPanel>
+                <DataGrid AutoGenerateColumns="False"
+                      IsReadOnly="True"
+                      SelectedItem="{Binding SelectedChangeset, UpdateSourceTrigger=PropertyChanged}"
+                      ItemsSource="{Binding ResultChangeset}"
+                      cmd:ControlCommand.DataGridDoubleClickCommand="{Binding CheckChangesetCommand}">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="" Width="30">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock>
+                                    <Hyperlink Command="{Binding DataContext.CheckChangesetCommand, ElementName=gridChangesetQuery}">
+                                        <TextBlock Text="{Binding ChangesetId}"></TextBlock>
+                                    </Hyperlink>
+                                </TextBlock>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="CheckedInBy" Width="150">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding CheckedInBy}"></TextBlock>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="WorkItem" Width="*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ItemsControl ItemsSource="{Binding Path=Workitems}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock>
+                                                    <Hyperlink NavigateUri="{Binding WebUrl}" Click="Hyperlink_Click">
+                                                        <TextBlock Text="{Binding Id}"></TextBlock>
+                                                    </Hyperlink>
+                                                </TextBlock>
+                                                    <TextBlock Text=" - "></TextBlock>
+                                                    <TextBlock Text="{Binding Title}"></TextBlock>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Vertical"/>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                    </ItemsControl>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Comment" Width="280">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Comment}"></TextBlock>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="CreatedDate" Width="150">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding CreatedDate}"></TextBlock>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <TextBlock HorizontalAlignment="Center" Margin="0,10,0,20">
+                    <Hyperlink Command="{Binding LoadMoreCommand}">more</Hyperlink>
+                </TextBlock>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!--<Button Grid.Row="2"
+                Content="Check Details"
+                Command="{Binding CheckChangesetCommand}"></Button>-->
+    </Grid>
+</UserControl>

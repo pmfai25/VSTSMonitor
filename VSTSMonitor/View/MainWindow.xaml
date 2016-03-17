@@ -1,0 +1,54 @@
+﻿<Window x:Class="VSTSMonitor.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VSTSMonitor.View"
+        xmlns:cv="clr-namespace:VSTSMonitor.Converter"
+        xmlns:ignore="http://www.galasoft.ch/ignore"
+        mc:Ignorable="d ignore"
+        Height="600"
+        Width="1000"
+        Title="VSTS Monitor"
+        DataContext="{Binding Main, Source={StaticResource Locator}}">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Skins/ExplorerSkin.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <cv:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"></cv:BooleanToVisibilityConverter>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <WrapPanel HorizontalAlignment="Left" VerticalAlignment="Stretch">
+            <RadioButton x:Name="tbtnSettingPage"
+                         GroupName="MenuButton"
+                         Style="{StaticResource {x:Type ToggleButton}}"
+                         Content="Setting" Height="35" Padding="10,0" BorderThickness="0"></RadioButton>
+            <RadioButton x:Name="tbtnChangesetQueryPage"
+                         GroupName="MenuButton"
+                         Style="{StaticResource {x:Type ToggleButton}}"
+                         Content="Query" Height="35" Padding="10,0" BorderThickness="0"
+                IsChecked="True"></RadioButton>
+        </WrapPanel>
+
+        <Grid Grid.Row="1">
+            <local:SettingPage
+                Visibility="{Binding Path=IsChecked, ElementName=tbtnSettingPage, Converter={StaticResource BooleanToVisibilityConverter}}">
+            </local:SettingPage>
+            <local:ChangesetQueryPage 
+                Visibility="{Binding Path=IsChecked, ElementName=tbtnChangesetQueryPage, Converter={StaticResource BooleanToVisibilityConverter}}">
+            </local:ChangesetQueryPage>
+        </Grid>
+
+        <Border Grid.RowSpan="2"
+                Visibility="{Binding LoadingScreenVisibility}"
+                Background="Black" Opacity="0.7" ></Border>
+    </Grid>
+</Window>

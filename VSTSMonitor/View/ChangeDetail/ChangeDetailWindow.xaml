@@ -1,0 +1,39 @@
+﻿<Window x:Class="VSTSMonitor.View.ChangeDetailWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VSTSMonitor.View"
+        xmlns:model="clr-namespace:VSTSMonitor.Model"
+        mc:Ignorable="d"
+        Title="ChangeDetailWindow" Height="550" Width="600">
+    <Grid Background="Gray">
+        <!--<DataGrid Background="#242B2E" Foreground="White" RowBackground="#242B2E"
+                  RowHeight="20" FontSize="14"
+                  AutoGenerateColumns="True"
+                  ItemsSource="{Binding ChangeList}">
+            <DataGrid.Resources>
+                <Style TargetType="{x:Type DataGridColumnHeader}">
+                    <Setter Property="Background" Value="#5A6C73" />
+                </Style>
+            </DataGrid.Resources>
+        </DataGrid>-->
+        <TreeView Background="#242B2E"
+                  Foreground="White"
+                  ItemsSource="{Binding TreeViewItem}">
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="{x:Type TreeViewItem}">
+                    <Setter Property="IsExpanded" Value="True" />
+                </Style>
+            </TreeView.ItemContainerStyle>
+            <TreeView.Resources>
+                <HierarchicalDataTemplate DataType="{x:Type model:TreeViewItem}" ItemsSource="{Binding SubItems}">
+                    <WrapPanel>
+                        <TextBlock Foreground="White" Text="{Binding Name}"/>
+                        <Label Foreground="#DEDB2A" Content="{Binding ChangeType}"></Label>
+                    </WrapPanel>
+                </HierarchicalDataTemplate>
+            </TreeView.Resources>
+        </TreeView>
+    </Grid>
+</Window>
