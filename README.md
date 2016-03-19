@@ -19,6 +19,7 @@ The main purpose of this repository is to continue to develop VSTSMonitor, makin
 Development
 ----------------
 This is a Windows WPF application written in C#. The solution file is compatible with Visual Studio 2015.
+
 Things that you might want to get familiar with before you jump into the code:
 
  - [MVVM Light](http://www.mvvmlight.net/)
