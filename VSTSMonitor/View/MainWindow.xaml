@@ -45,11 +45,11 @@
                                   HorizontalAlignment="Right"
                                   Margin="8"
                                   IsChecked="{Binding ElementName=MenuToggleButton, Path=IsChecked, Mode=TwoWay}" />
-                    <ListBox x:Name="DemoItemsListBox"
+                    <ListBox x:Name="listboxMenu"
                              Margin="0 16 0 16"
                              SelectedIndex="{Binding SelectedPageIndex}">
                         <ListBox.ItemTemplate>
-                            <DataTemplate DataType="domain:DemoItem">
+                            <DataTemplate DataType="model:MenuListItem">
                                 <TextBlock Text="{Binding Name}"
                                            Margin="32 0 32 0" />
                             </DataTemplate>
@@ -91,11 +91,11 @@
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    FontSize="22"
-                                   Text="{Binding ElementName=DemoItemsListBox, Path=SelectedItem.Name}" />
+                                   Text="{Binding ElementName=listboxMenu, Path=SelectedItem.Name}" />
                     </DockPanel>
                 </materialDesign:ColorZone>
                 <ContentControl Margin="16"
-                                Content="{Binding ElementName=DemoItemsListBox, Path=SelectedItem.Content}" />
+                                Content="{Binding ElementName=listboxMenu, Path=SelectedItem.Content}" />
             </DockPanel>
         </materialDesign:DrawerHost>
     </materialDesign:DialogHost>
