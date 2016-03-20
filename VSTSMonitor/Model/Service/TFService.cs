@@ -34,7 +34,7 @@ namespace VSTSMonitor.Model
                 return _Conn != null;
             }
         }
-        
+
         public TFService()
         {
             //if (!(string.IsNullOrEmpty(UserSetting.TFSCollectionUri) || string.IsNullOrEmpty(UserSetting.TFSProjectName) || string.IsNullOrEmpty(UserSetting.TFSUsername) || string.IsNullOrEmpty(UserSetting.TFSPassword)))
@@ -45,11 +45,14 @@ namespace VSTSMonitor.Model
 
         public bool Connect()
         {
+            if (string.IsNullOrEmpty(UserSetting.TFSCollectionUri) || string.IsNullOrEmpty(UserSetting.TFSUsername) || string.IsNullOrEmpty(UserSetting.TFSPassword))
+                throw new InvalidOperationException("Required information and credential is not provided");
+
             _Conn = new VssConnection(new Uri(UserSetting.TFSCollectionUri), new VssAadCredential(UserSetting.TFSUsername, UserSetting.TFSPassword));
 
             try
             {
-                _Conn.ConnectAsync();
+                _Conn.ConnectAsync().Wait();
                 return true;
             }
             catch

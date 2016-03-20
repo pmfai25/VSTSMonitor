@@ -4,13 +4,20 @@
              xmlns:vm="clr-namespace:VSTSMonitor.ViewModel"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-			 xmlns:ignore="http://www.galasoft.ch/ignore"
+             xmlns:ignore="http://www.galasoft.ch/ignore"
              StartupUri="View/MainWindow.xaml"
              mc:Ignorable="d ignore">
     <Application.Resources>
-        <!--Global View Model Locator-->
-        <vm:ViewModelLocator x:Key="Locator"
-                             d:IsDataSource="True" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Indigo.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Indigo.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <!--Global View Model Locator-->
+            <vm:ViewModelLocator x:Key="Locator"
+                                 d:IsDataSource="True" />
+        </ResourceDictionary>
     </Application.Resources>
-    
 </Application>

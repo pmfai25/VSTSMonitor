@@ -23,8 +23,7 @@ namespace VSTSMonitor.Model
             get { return _ChangesetId; }
             set
             {
-                _ChangesetId = value;
-                NotifyPropertyChanged("ChangesetId");
+                Set(ref _ChangesetId, value, RaisePropertyChanged());
             }
         }
         public string Author
@@ -32,8 +31,7 @@ namespace VSTSMonitor.Model
             get { return _Author; }
             set
             {
-                _Author = value;
-                NotifyPropertyChanged("Author");
+                Set(ref _Author, value, RaisePropertyChanged());
             }
         }
         public string CheckedInBy
@@ -41,8 +39,7 @@ namespace VSTSMonitor.Model
             get { return _CheckedInBy; }
             set
             {
-                _CheckedInBy = value;
-                NotifyPropertyChanged("CheckedInBy");
+                Set(ref _CheckedInBy, value, RaisePropertyChanged());
             }
         }
         public string Comment
@@ -50,8 +47,7 @@ namespace VSTSMonitor.Model
             get { return _Comment; }
             set
             {
-                _Comment = value;
-                NotifyPropertyChanged("Comment");
+                Set(ref _Comment, value, RaisePropertyChanged());
             }
         }
         public DateTime CreatedDate
@@ -59,8 +55,7 @@ namespace VSTSMonitor.Model
             get { return _CreatedDate; }
             set
             {
-                _CreatedDate = value;
-                NotifyPropertyChanged("CreatedDate");
+                Set(ref _CreatedDate, value, RaisePropertyChanged());
             }
         }
         public string Url
@@ -68,8 +63,7 @@ namespace VSTSMonitor.Model
             get { return _Url; }
             set
             {
-                _Url = value;
-                NotifyPropertyChanged("Url");
+                Set(ref _Url, value, RaisePropertyChanged());
             }
         }
         public string WorkItem
@@ -77,8 +71,7 @@ namespace VSTSMonitor.Model
             get { return _WorkItem; }
             set
             {
-                _WorkItem = value;
-                NotifyPropertyChanged("WorkItem");
+                Set(ref _WorkItem, value, RaisePropertyChanged());
             }
         }
         public List<AssociatedWorkItem> Workitems
@@ -86,8 +79,7 @@ namespace VSTSMonitor.Model
             get { return _Workitems; }
             set
             {
-                _Workitems = value;
-                NotifyPropertyChanged("Workitems");
+                Set(ref _Workitems, value, RaisePropertyChanged());
             }
         }
 

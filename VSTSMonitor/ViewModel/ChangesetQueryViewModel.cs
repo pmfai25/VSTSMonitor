@@ -49,11 +49,7 @@ namespace VSTSMonitor.ViewModel
         public ChangesetQueryViewModel(ITFService tfsService, SystemMessenger sysMessenger)
             : base(sysMessenger)
         {
-            bool b;
             _tfsService = tfsService;
-            if (!_tfsService.HasConnection)
-                b = _tfsService.Connect();
-
             _ExecuteQueryCommand = new DelegateCommand<object>(ExecuteQueryCommand_Execute);
             _CheckChangesetCommand = new DelegateCommand<object>(CheckChangesetCommand_Execute, CheckChangesetCommand_CanExecute);
             _LoadMoreCommand = new DelegateCommand<object>(LoadMoreCommand_Execute, LoadMoreCommand_CanExecute);
@@ -78,8 +74,8 @@ namespace VSTSMonitor.ViewModel
 
         public async void ExecuteQueryCommand_Execute(object arg)
         {
-            MessengerInstance.Send<LoadingMessage>(new LoadingMessage(LoadingScreenBehavior.Show, "Loading ..."));
             ResultChangeset.Clear();
+            MessengerInstance.Send<LoadingMessage>(new LoadingMessage(LoadingScreenBehavior.Show, "Loading ..."));
             ResultChangeset.AddRange(await _tfsService.GetLastestChangesetAsync(0, 10));
             MessengerInstance.Send<LoadingMessage>(new LoadingMessage(LoadingScreenBehavior.Hide, null));
         }

@@ -11,12 +11,12 @@ namespace VSTSMonitor.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
-        private Visibility _LoadingScreenVisibility = Visibility.Collapsed;
+        private bool _ShowRootLoading = false;
 
-        public Visibility LoadingScreenVisibility
+        public bool ShowRootLoading
         {
-            get { return _LoadingScreenVisibility; }
-            set { Set<Visibility>(ref _LoadingScreenVisibility, value); }
+            get { return _ShowRootLoading; }
+            set { Set<bool>(ref _ShowRootLoading, value); }
         }
 
         public MainViewModel(SystemMessenger sysMessenger)
@@ -28,9 +28,9 @@ namespace VSTSMonitor.ViewModel
         public void NotifyMe(LoadingMessage message)
         {
             if (message.Behavior == LoadingScreenBehavior.Show)
-                LoadingScreenVisibility = Visibility.Visible;
+                ShowRootLoading = true;
             else
-                LoadingScreenVisibility = Visibility.Collapsed;
+                ShowRootLoading = false;
         }
     }
 }

@@ -6,8 +6,11 @@
         xmlns:local="clr-namespace:VSTSMonitor.View"
         xmlns:model="clr-namespace:VSTSMonitor.Model"
         mc:Ignorable="d"
-        Title="ChangeDetailWindow" Height="550" Width="600">
-    <Grid Background="Gray">
+        Title="ChangeDetailWindow" Height="550" Width="600"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto">
+    <Grid>
         <!--<DataGrid Background="#242B2E" Foreground="White" RowBackground="#242B2E"
                   RowHeight="20" FontSize="14"
                   AutoGenerateColumns="True"
@@ -18,19 +21,18 @@
                 </Style>
             </DataGrid.Resources>
         </DataGrid>-->
-        <TreeView Background="#242B2E"
-                  Foreground="White"
-                  ItemsSource="{Binding TreeViewItem}">
+        <TreeView ItemsSource="{Binding TreeViewItem}">
             <TreeView.ItemContainerStyle>
-                <Style TargetType="{x:Type TreeViewItem}">
+                <Style TargetType="{x:Type TreeViewItem}"
+                       BasedOn="{StaticResource ResourceKey=MaterialDesignTreeViewItem}">
                     <Setter Property="IsExpanded" Value="True" />
                 </Style>
             </TreeView.ItemContainerStyle>
             <TreeView.Resources>
                 <HierarchicalDataTemplate DataType="{x:Type model:TreeViewItem}" ItemsSource="{Binding SubItems}">
                     <WrapPanel>
-                        <TextBlock Foreground="White" Text="{Binding Name}"/>
-                        <Label Foreground="#DEDB2A" Content="{Binding ChangeType}"></Label>
+                        <TextBlock Text="{Binding Name}"/>
+                        <Label Content="{Binding ChangeType}"></Label>
                     </WrapPanel>
                 </HierarchicalDataTemplate>
             </TreeView.Resources>

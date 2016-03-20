@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:VSTSMonitor.View"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" Background="WhiteSmoke">
+             d:DesignHeight="300" d:DesignWidth="300">
     <Grid x:Name="gridContainer" DataContext="{Binding Setting, Source={StaticResource Locator}}">
         <StackPanel Margin="30,20">
             <DockPanel Margin="0,5" LastChildFill="True">
