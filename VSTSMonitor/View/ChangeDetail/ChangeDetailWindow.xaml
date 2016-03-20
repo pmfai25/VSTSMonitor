@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:VSTSMonitor.View"
         xmlns:model="clr-namespace:VSTSMonitor.Model"
         mc:Ignorable="d"
-        Title="ChangeDetailWindow" Height="550" Width="600"
+        Title="Changeset Details" Height="550" Width="600"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto">

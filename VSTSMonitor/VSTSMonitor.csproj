@@ -35,6 +35,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>VSTSMonitorLogo.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="GalaSoft.MvvmLight, Version=5.2.0.37222, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.2.0.0\lib\net45\GalaSoft.MvvmLight.dll</HintPath>
@@ -205,6 +208,7 @@
     <Compile Include="Design\DesignTFSService.cs" />
     <Compile Include="Helper\Extension.cs" />
     <Compile Include="Messenger\LoadingMessage.cs" />
+    <Compile Include="Messenger\MainViewMessage.cs" />
     <Compile Include="Messenger\SystemMessenger.cs" />
     <Compile Include="Model\DataItem.cs" />
     <Compile Include="Model\MenuListItem.cs" />
@@ -294,6 +298,9 @@
   <ItemGroup>
     <Folder Include="Extension\" />
     <Folder Include="View\Dialogs\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="VSTSMonitorLogo.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

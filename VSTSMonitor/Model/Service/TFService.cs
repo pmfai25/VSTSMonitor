@@ -63,10 +63,9 @@ namespace VSTSMonitor.Model
 
         public async Task<bool> ConnectAsync()
         {
-            _Conn = new VssConnection(new Uri(UserSetting.TFSCollectionUri), new VssAadCredential(UserSetting.TFSUsername, UserSetting.TFSPassword));
-
             try
             {
+                _Conn = new VssConnection(new Uri(UserSetting.TFSCollectionUri), new VssAadCredential(UserSetting.TFSUsername, UserSetting.TFSPassword));
                 await _Conn.ConnectAsync();
                 return true;
             }
