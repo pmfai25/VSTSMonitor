@@ -5,22 +5,101 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VSTSMonitor.View"
-        xmlns:cv="clr-namespace:VSTSMonitor.Converter"
         xmlns:ignore="http://www.galasoft.ch/ignore"
+        xmlns:vm="clr-namespace:VSTSMonitor.ViewModel"
+        xmlns:cv="clr-namespace:VSTSMonitor.Converter"
+        xmlns:model="clr-namespace:VSTSMonitor.Model"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d ignore"
         Height="600"
         Width="1000"
         Title="VSTS Monitor"
-        DataContext="{Binding Main, Source={StaticResource Locator}}">
+        DataContext="{Binding Main, Source={StaticResource Locator}}"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../Skins/ExplorerSkin.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <cv:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"></cv:BooleanToVisibilityConverter>
         </ResourceDictionary>
     </Window.Resources>
-    <Grid>
+    <materialDesign:DialogHost Identifier="RootDialog"
+                               x:Name="dialoghostRoot"
+                               IsOpen="{Binding ShowRootLoading}">
+        <materialDesign:DialogHost.DialogContent>
+            <StackPanel Margin="16">
+                <ProgressBar Style="{DynamicResource MaterialDesignCircularProgressBar}"
+                             HorizontalAlignment="Center"
+                             Margin="16"
+                             IsIndeterminate="True"
+                             Value="0" />
+            </StackPanel>
+        </materialDesign:DialogHost.DialogContent>
+        <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
+            <materialDesign:DrawerHost.LeftDrawerContent>
+                <DockPanel MinWidth="212">
+                    <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}"
+                                  DockPanel.Dock="Top"
+                                  HorizontalAlignment="Right"
+                                  Margin="8"
+                                  IsChecked="{Binding ElementName=MenuToggleButton, Path=IsChecked, Mode=TwoWay}" />
+                    <ListBox x:Name="listboxMenu"
+                             Margin="0 16 0 16"
+                             SelectedIndex="{Binding SelectedPageIndex}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate DataType="model:MenuListItem">
+                                <TextBlock Text="{Binding Name}"
+                                           Margin="32 0 32 0" />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                        <model:MenuListItem Name="Changeset Query">
+                            <model:MenuListItem.Content>
+                                <local:ChangesetQueryPage></local:ChangesetQueryPage>
+                            </model:MenuListItem.Content>
+                        </model:MenuListItem>
+                        <model:MenuListItem Name="Setting">
+                            <model:MenuListItem.Content>
+                                <local:SettingPage></local:SettingPage>
+                            </model:MenuListItem.Content>
+                        </model:MenuListItem>
+                    </ListBox>
+                </DockPanel>
+            </materialDesign:DrawerHost.LeftDrawerContent>
+            <DockPanel>
+                <materialDesign:ColorZone Padding="8"
+                                          materialDesign:ShadowAssist.ShadowDepth="Depth2"
+                                          Mode="PrimaryMid"
+                                          DockPanel.Dock="Top">
+                    <DockPanel>
+                        <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}"
+                                      IsChecked="False"
+                                      x:Name="MenuToggleButton" />
+                        <materialDesign:PopupBox DockPanel.Dock="Right"
+                                                 PlacementMode="BottomAndAlignRightEdges"
+                                                 StaysOpen="True">
+                            <StackPanel>
+                                <Button x:Name="btnLightTheme"
+                                        Content="Light Theme"
+                                        Click="btnLightTheme_Click"/>
+                                <Button x:Name="btnDarkTheme"
+                                        Content="Dark Theme"
+                                        Click="btnDarkTheme_Click"/>
+                            </StackPanel>
+                        </materialDesign:PopupBox>
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontSize="22"
+                                   Text="{Binding ElementName=listboxMenu, Path=SelectedItem.Name}" />
+                    </DockPanel>
+                </materialDesign:ColorZone>
+                <ContentControl Margin="16"
+                                Content="{Binding ElementName=listboxMenu, Path=SelectedItem.Content}" />
+            </DockPanel>
+        </materialDesign:DrawerHost>
+    </materialDesign:DialogHost>
+    <!--<Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="35"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
@@ -30,19 +109,20 @@
             <RadioButton x:Name="tbtnSettingPage"
                          GroupName="MenuButton"
                          Style="{StaticResource {x:Type ToggleButton}}"
-                         Content="Setting" Height="35" Padding="10,0" BorderThickness="0"></RadioButton>
+                         Content="Setting" Height="35" Padding="10,0" BorderThickness="0"
+                         IsChecked="{Binding Path=SelectedPage, Converter={StaticResource MainViewPageEnumToBooleanConverter}, ConverterParameter={x:Static vm:MainViewPage.Setting}, Mode=TwoWay}"></RadioButton>
             <RadioButton x:Name="tbtnChangesetQueryPage"
                          GroupName="MenuButton"
                          Style="{StaticResource {x:Type ToggleButton}}"
                          Content="Query" Height="35" Padding="10,0" BorderThickness="0"
-                IsChecked="True"></RadioButton>
+                         IsChecked="{Binding Path=SelectedPage, Converter={StaticResource MainViewPageEnumToBooleanConverter}, ConverterParameter={x:Static vm:MainViewPage.ChangesetQuery}, Mode=TwoWay}"></RadioButton>
         </WrapPanel>
 
         <Grid Grid.Row="1">
             <local:SettingPage
                 Visibility="{Binding Path=IsChecked, ElementName=tbtnSettingPage, Converter={StaticResource BooleanToVisibilityConverter}}">
             </local:SettingPage>
-            <local:ChangesetQueryPage 
+            <local:ChangesetQueryPage
                 Visibility="{Binding Path=IsChecked, ElementName=tbtnChangesetQueryPage, Converter={StaticResource BooleanToVisibilityConverter}}">
             </local:ChangesetQueryPage>
         </Grid>
@@ -50,5 +130,5 @@
         <Border Grid.RowSpan="2"
                 Visibility="{Binding LoadingScreenVisibility}"
                 Background="Black" Opacity="0.7" ></Border>
-    </Grid>
+    </Grid>-->
 </Window>

@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
+using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 using VSTSMonitor.Command;
 using VSTSMonitor.Model;
 using VSTSMonitor.Setting;
+using VSTSMonitor.View;
 
 namespace VSTSMonitor.ViewModel
 {
@@ -81,7 +83,7 @@ namespace VSTSMonitor.ViewModel
 
         public async void VerifyConnectionCommand_Execute(object arg)
         {
-            MessengerInstance.Send<LoadingMessage>(new LoadingMessage(LoadingScreenBehavior.Show, "Verifying Connection"));
+            MessengerInstance.Send<LoadingMessage>(new LoadingMessage(LoadingScreenBehavior.Show, "Loading ..."));
 
             bool ConnectionSuccess = await _tfsService.ConnectAsync();
 
@@ -90,7 +92,7 @@ namespace VSTSMonitor.ViewModel
             else
                 ConnVerificationStatus = "Unable to connect";
 
-            MessengerInstance.Send<LoadingMessage>(new LoadingMessage(LoadingScreenBehavior.Hide, "Connection Successful"));
+            MessengerInstance.Send<LoadingMessage>(new LoadingMessage(LoadingScreenBehavior.Hide, "Done"));
         }
         public bool VerifyConnectionCommand_CanExecute(object arg)
         {

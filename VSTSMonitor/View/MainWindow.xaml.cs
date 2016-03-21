@@ -1,4 +1,7 @@
-﻿using System;
+﻿using MaterialDesignColors;
+using MaterialDesignThemes.Wpf;
+using System;
+using System.Collections.Generic;
 using System.Windows;
 
 namespace VSTSMonitor.View
@@ -17,6 +20,16 @@ namespace VSTSMonitor.View
         private void MainWindow_Closed(object sender, EventArgs e)
         {
             App.Current.Shutdown();
+        }
+
+        private void btnLightTheme_Click(object sender, RoutedEventArgs e)
+        {
+            new PaletteHelper().SetLightDark(false);
+        }
+
+        private void btnDarkTheme_Click(object sender, RoutedEventArgs e)
+        {
+            new PaletteHelper().SetLightDark(true);
         }
     }
 }

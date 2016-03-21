@@ -11,26 +11,44 @@ namespace VSTSMonitor.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
-        private Visibility _LoadingScreenVisibility = Visibility.Collapsed;
+        private bool _ShowRootLoading = false;
+        private int _SelectedPageIndex;
 
-        public Visibility LoadingScreenVisibility
+        public bool ShowRootLoading
         {
-            get { return _LoadingScreenVisibility; }
-            set { Set<Visibility>(ref _LoadingScreenVisibility, value); }
+            get { return _ShowRootLoading; }
+            set { Set<bool>(ref _ShowRootLoading, value); }
+        }
+
+        public int SelectedPageIndex
+        {
+            get { return _SelectedPageIndex; }
+            set { Set<int>(ref _SelectedPageIndex, value); }
         }
 
         public MainViewModel(SystemMessenger sysMessenger)
             : base(sysMessenger)
         {
+            _SelectedPageIndex = 0;
             MessengerInstance.Register<LoadingMessage>(this, NotifyMe);
+            MessengerInstance.Register<MainViewMessage>(this, NotifyMe);
         }
 
         public void NotifyMe(LoadingMessage message)
         {
             if (message.Behavior == LoadingScreenBehavior.Show)
-                LoadingScreenVisibility = Visibility.Visible;
+                ShowRootLoading = true;
             else
-                LoadingScreenVisibility = Visibility.Collapsed;
+                ShowRootLoading = false;
+        }
+
+        public void NotifyMe(MainViewMessage message)
+        {
+            if (message.ChangeToPage == "ChangesetQuery")
+                SelectedPageIndex = 0;
+
+            if (message.ChangeToPage == "Setting")
+                SelectedPageIndex = 1;
         }
     }
 }

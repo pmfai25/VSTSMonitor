@@ -2,26 +2,34 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace VSTSMonitor.Model
 {
     public class ModelBase : INotifyPropertyChanged, INotifyDataErrorInfo
     {
         #region Property changed
+
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void NotifyPropertyChanged(string propertyName)
+        protected virtual Action<PropertyChangedEventArgs> RaisePropertyChanged()
         {
-            if (this.PropertyChanged != null)
-            {
-                // property changed
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
+            return args => PropertyChanged?.Invoke(this, args);
         }
-        #endregion
+
+        public void Set<TField>(ref TField field, TField newValue, Action<PropertyChangedEventArgs> raise, [CallerMemberName] string propertyName = null)
+        {
+            if (EqualityComparer<TField>.Default.Equals(field, newValue)) return;
+            field = newValue;
+            raise?.Invoke(new PropertyChangedEventArgs(propertyName));
+        }
+
+        #endregion Property changed
 
         #region Notify data error
+
         private Dictionary<string, List<string>> _errors = new Dictionary<string, List<string>>();
+
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
         // get errors by property
@@ -42,7 +50,6 @@ namespace VSTSMonitor.Model
         public bool IsValid
         {
             get { return !this.HasErrors; }
-
         }
 
         public void AddError(string propertyName, string error)
@@ -66,7 +73,7 @@ namespace VSTSMonitor.Model
             if (this.ErrorsChanged != null)
                 this.ErrorsChanged(this, new DataErrorsChangedEventArgs(propertyName));
         }
-        #endregion
-    }
 
+        #endregion Notify data error
+    }
 }

@@ -17,12 +17,17 @@ namespace VSTSMonitor.ViewModel
     {
         const int LOAD_MORE_COUNT = 30;
         private ITFService _tfsService;
+        private readonly DelegateCommand<object> _LoadedCommand;
         private readonly DelegateCommand<object> _ExecuteQueryCommand;
         private readonly DelegateCommand<object> _CheckChangesetCommand;
         private readonly DelegateCommand<object> _LoadMoreCommand;
         private ObservableCollection<VSTSChangeset> _ResultChangeset;
         private VSTSChangeset _SelectedChangeset;
 
+        public DelegateCommand<object> LoadedCommand
+        {
+            get { return _LoadedCommand; }
+        }
         public DelegateCommand<object> ExecuteQueryCommand
         {
             get { return _ExecuteQueryCommand; }
@@ -49,11 +54,8 @@ namespace VSTSMonitor.ViewModel
         public ChangesetQueryViewModel(ITFService tfsService, SystemMessenger sysMessenger)
             : base(sysMessenger)
         {
-            bool b;
             _tfsService = tfsService;
-            if (!_tfsService.HasConnection)
-                b = _tfsService.Connect();
-
+            _LoadedCommand = new DelegateCommand<object>(LoadedCommand_Execute);
             _ExecuteQueryCommand = new DelegateCommand<object>(ExecuteQueryCommand_Execute);
             _CheckChangesetCommand = new DelegateCommand<object>(CheckChangesetCommand_Execute, CheckChangesetCommand_CanExecute);
             _LoadMoreCommand = new DelegateCommand<object>(LoadMoreCommand_Execute, LoadMoreCommand_CanExecute);
@@ -76,10 +78,22 @@ namespace VSTSMonitor.ViewModel
             }
         }
 
-        public async void ExecuteQueryCommand_Execute(object arg)
+        private async void LoadedCommand_Execute(object obj)
         {
             MessengerInstance.Send<LoadingMessage>(new LoadingMessage(LoadingScreenBehavior.Show, "Loading ..."));
+
+            bool ConnectionSuccess = await _tfsService.ConnectAsync();
+
+            if (!ConnectionSuccess)
+                MessengerInstance.Send<MainViewMessage>(new MainViewMessage("Setting"));
+
+            MessengerInstance.Send<LoadingMessage>(new LoadingMessage(LoadingScreenBehavior.Hide, null));
+        }
+
+        public async void ExecuteQueryCommand_Execute(object arg)
+        {
             ResultChangeset.Clear();
+            MessengerInstance.Send<LoadingMessage>(new LoadingMessage(LoadingScreenBehavior.Show, "Loading ..."));
             ResultChangeset.AddRange(await _tfsService.GetLastestChangesetAsync(0, 10));
             MessengerInstance.Send<LoadingMessage>(new LoadingMessage(LoadingScreenBehavior.Hide, null));
         }

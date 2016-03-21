@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace VSTSMonitor.Model
+﻿namespace VSTSMonitor.Model
 {
     public class VSTSChange : ModelBase
     {
@@ -16,17 +10,16 @@ namespace VSTSMonitor.Model
             get { return _ChangeType; }
             set
             {
-                _ChangeType = value;
-                NotifyPropertyChanged("ChangeType");
+                Set(ref _ChangeType, value, RaisePropertyChanged());
             }
         }
+
         public string FilePath
         {
             get { return _FilePath; }
             set
             {
-                _FilePath = value;
-                NotifyPropertyChanged("FilePath");
+                Set(ref _FilePath, value, RaisePropertyChanged());
             }
         }
     }
