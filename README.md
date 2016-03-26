@@ -11,7 +11,7 @@ VSTSMonitor is a Windows application to query the Changeset & WorkItem in [Visua
 Contribute
 -------------
 
-The main purpose of this repository is to continue to develop VSTSMonitor, making it better and easier to use. If you're interested in helping with that, then keep reading. If you're not interested in helping right now that's ok too. :) Any feedback you have about using React would be greatly appreciated.
+The main purpose of this repository is to continue to develop VSTSMonitor, making it better and easier to use. If you're interested in helping with that, then keep reading. If you're not interested in helping right now that's ok too. :) Any feedback you have about using VSTSMonitor would be greatly appreciated.
 
 
 
